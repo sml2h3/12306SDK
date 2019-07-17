@@ -8,7 +8,9 @@ import time
 import numpy as np
 import cv2
 from io import BytesIO
-import Exceptions
+import os
+import sys
+from SDK12306 import Exceptions
 
 
 class Login(object):
@@ -216,7 +218,7 @@ class Login(object):
             resp = self.session.post(self.uamtk_url, headers=self.headers, data={"appid": "otn"})
             if resp.json()['result_message'] == "验证通过":
                 self.tk = resp.json()['newapptk']
-                resp = self.session.post(self.uamauthclient_url, headers=self.headers, data={"tk": tk})
+                resp = self.session.post(self.uamauthclient_url, headers=self.headers, data={"tk": self.tk})
                 if resp.json()['result_message'] == "验证通过":
                     nickname = resp.json()['username']
                     self.tk = resp.json()['apptk']
